@@ -13,11 +13,11 @@ class DataExtractor:
 
     Methods:
     - read_rds_table(database_connector, table_name): Reads data from an RDS table.
-    - retrieve_pdf_data(link): Retrieves data from a PDF file specified by the link.
+    - retrieve_pdf_data(pdf_link): Retrieves data from a PDF file specified by the link.
     - list_number_of_stores(number_of_stores_endpoint, headers_dictionary): Lists the number of stores.
     - retrieve_stores_data(store_endpoint, headers_dictionary): Retrieves data for multiple stores.
     - extract_from_s3(s3_link): Extracts data from an S3 bucket specified by the link.
-    - extract_from_json(link): Extracts data from a JSON file specified by the link.
+    - extract_from_json(json_link): Extracts data from a JSON file specified by the link.
     """
 
     def read_rds_table(self, database_connector, table_name):
@@ -45,17 +45,17 @@ class DataExtractor:
             df = pd.DataFrame(result.fetchall(), columns=result.keys())
             return df
 
-    def retrieve_pdf_data(self, link):
+    def retrieve_pdf_data(self, pdf_link):
         """
-        Retrieves data from a PDF file specified by the link.
+        Retrieves data from a PDF file specified by the pdf_link.
 
         Parameters:
-        - link (str): URL or file path to the PDF.
+        - pdf_link (str): URL or file path to the PDF.
 
         Returns:
         - pd.DataFrame: A DataFrame containing the data extracted from the PDF.
         """
-        dfs = tabula.read_pdf(link, pages="all")
+        dfs = tabula.read_pdf(pdf_link, pages="all")
         df = pd.concat(dfs, ignore_index=True)
         return df
 
@@ -120,15 +120,15 @@ class DataExtractor:
         df = pd.read_csv("./products.csv")
         return df
 
-    def extract_from_json(self, link):
+    def extract_from_json(self, json_link):
         """
-        Extracts data from a JSON file specified by the link.
+        Extracts data from a JSON file specified by the json_link.
 
         Parameters:
-        - link (str): URL or file path to the JSON file.
+        - json_link (str): URL or file path to the JSON file.
 
         Returns:
         - pd.DataFrame: A DataFrame containing the data from the specified JSON file.
         """
-        dates_data = pd.read_json(link)
+        dates_data = pd.read_json(json_link)
         return dates_data
