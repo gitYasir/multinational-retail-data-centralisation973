@@ -71,59 +71,11 @@ class DataCleaning:
         """
         df["card_number"] = df["card_number"].astype("string")
         df["card_provider"] = df["card_provider"].astype("string")
-        df["expiry_date"] = pd.to_datetime(
-            df["expiry_date"], format="%m/%y", errors="coerce"
-        )
-        df["expiry_date"] = df["expiry_date"] + pd.offsets.MonthEnd(0)
+        df["expiry_date"] = df["expiry_date"].astype("string")
         df["date_payment_confirmed"] = pd.to_datetime(
             df["date_payment_confirmed"], format="mixed", errors="coerce"
         )
         df["card_number"] = df["card_number"].str.strip("?")
-        df.loc[
-            (df["card_number"].str.len() >= 17) & (df["card_number"].str.len() <= 19),
-            "card_number",
-        ] = df.loc[
-            (df["card_number"].str.len() >= 17) & (df["card_number"].str.len() <= 19),
-            "card_number",
-        ].apply(
-            lambda x: x[0:4]
-            + " "
-            + x[4:8]
-            + " "
-            + x[8:12]
-            + " "
-            + x[12:16]
-            + " "
-            + x[16:20]
-        )
-
-        df.loc[
-            (df["card_number"].str.len() >= 13) & (df["card_number"].str.len() <= 16),
-            "card_number",
-        ] = df.loc[
-            (df["card_number"].str.len() >= 13) & (df["card_number"].str.len() <= 16),
-            "card_number",
-        ].apply(
-            lambda x: x[0:4] + " " + x[4:8] + " " + x[8:12] + " " + x[12:16]
-        )
-
-        df.loc[
-            (df["card_number"].str.len() >= 11) & (df["card_number"].str.len() <= 12),
-            "card_number",
-        ] = df.loc[
-            (df["card_number"].str.len() >= 11) & (df["card_number"].str.len() <= 12),
-            "card_number",
-        ].apply(
-            lambda x: x[0:4] + " " + x[4:8] + " " + x[8:12]
-        )
-
-        df.loc[
-            (df["card_number"].str.len() == 9),
-            "card_number",
-        ] = df.loc[
-            (df["card_number"].str.len() == 9),
-            "card_number",
-        ].apply(lambda x: x[0:3] + " " + x[3:6] + " " + x[6:9])
 
         df.replace("NULL", np.nan, inplace=True)
         df.dropna(inplace=True)
@@ -140,8 +92,6 @@ class DataCleaning:
         Returns:
         - pd.DataFrame: Cleaned DataFrame.
         """
-        df = df.drop("lat", axis=1)
-        df = df.drop(0, axis=1)
         df["index"] = pd.to_numeric(df["index"], errors="coerce").astype("Int64")
         df["address"] = df["address"].astype("string")
         df["locality"] = df["locality"].astype("string")
@@ -158,8 +108,18 @@ class DataCleaning:
         df["opening_date"] = pd.to_datetime(
             df["opening_date"], format="mixed", errors="coerce"
         )
-        df.replace("NULL", np.nan, inplace=True)
-        df.dropna(inplace=True)
+        values_to_exclude = [
+            "13KJZ890JH",
+            "NULL",
+            "UXMWDMX1LC",
+            "A3O5CBWAMD",
+            "LACCWDI0SB",
+            "VKA5I8H32X",
+            "OXVE5QR07O",
+            "2XE1OWOC23",
+        ]
+        df = df[~df["lat"].isin(values_to_exclude)]
+        df = df.drop("lat", axis=1)
         return df
 
     def convert_product_weights(self, df):
@@ -173,6 +133,7 @@ class DataCleaning:
         - pd.DataFrame: DataFrame with standardized product weights.
         """
         df["weight"] = df["weight"].astype("string", errors="ignore")
+        df["weight"] = df["weight"].str.rstrip(" .")
 
         def process_ml_weights(weight):
             value = float(weight[:-2])
@@ -185,7 +146,7 @@ class DataCleaning:
             return f"{to_kg}kg"
 
         def process_g_weight(weight):
-            if "x" in weight:
+            if "x" in weight and weight[:-2] != "kg":
                 [num1, num2] = weight[:-1].split("x")
                 res = float(num1) * float(num2)
                 to_kg = res / 1000

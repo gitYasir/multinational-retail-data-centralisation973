@@ -76,30 +76,29 @@ class DataExtractor:
 
     def retrieve_stores_data(self, store_endpoint, headers_dictionary):
         """
-        Retrieves data for multiple stores using parallel processing.
+        Retrieves store details from the specified store endpoint.
 
         Parameters:
-        - store_endpoint (str): API endpoint to retrieve store data.
-        - headers_dictionary (dict): Headers for the API request.
+            store_endpoint (str): The base URL endpoint for store data, including a placeholder for store number.
+            headers_dictionary (dict): A dictionary containing HTTP headers for the request.
 
         Returns:
-        - pd.DataFrame: A DataFrame containing the data of multiple stores.
+            pandas.DataFrame: A DataFrame containing store details for multiple stores.
         """
-        store_numbers = range(1, 452)
-        stores = pd.DataFrame()
-        with ThreadPoolExecutor() as executor:
-            responses = executor.map(
-                lambda store_number: requests.get(
-                    f"{store_endpoint}/{store_number}", headers=headers_dictionary
-                ),
-                store_numbers,
-            )
+        store_details_list = []
 
-        for response in responses:
-            store_data = response.json()
-            stores = pd.concat([stores, pd.DataFrame([store_data])], ignore_index=True)
+        for store_number in range(451):
+            url = store_endpoint.format(store_number=store_number)
 
-        return stores
+            response = requests.get(url, headers=headers_dictionary)
+
+            store_details = response.json()
+
+            store_details_list.append(store_details)
+
+            stores_df = pd.DataFrame(store_details_list)
+
+        return stores_df
 
     def extract_from_s3(self, s3_link):
         """

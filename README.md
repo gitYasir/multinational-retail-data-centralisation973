@@ -35,6 +35,12 @@ To create a data extracting and cleaning tool.
 - **Data Extraction Techniques:** Handling diverse data sources, including databases, PDFs, APIs, S3 buckets, and JSON files.
 - **Database Operations:** Connecting to databases, querying tables, and uploading data using SQLAlchemy.
 - **Data Cleaning and Transformation:** Techniques for cleaning and transforming data to meet specific requirements.
+- **SQL Querying:** Proficiency in writing SQL queries to retrieve, filter, and manipulate data from relational databases.
+- **Data Type Transformation:** Knowledge of converting and standardizing data types within SQL, such as changing column types and handling data type conversions.
+- **Database Schema Understanding:** Understanding and working with the structure of a relational database, including tables, columns, and relationships.
+- **Data Integrity:** Techniques for maintaining data integrity through constraints, data validation, and ensuring accurate data representation in the database.
+- **Data Filtering and Aggregation:** Skill in using SQL to filter and aggregate data, enabling the extraction of meaningful insights from large datasets.
+- **Database Maintenance:** Knowledge of routine database maintenance tasks, including updating records, adding new data, and ensuring consistent data quality.
 
 ## Installation instructions
 
