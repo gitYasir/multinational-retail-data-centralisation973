@@ -25,3 +25,35 @@ ORDER BY total_sales DESC
 
 -- Task 4
 
+SELECT
+  COUNT(*) AS number_of_sales,
+  SUM(product_quantity) AS product_quantity_count,
+  CASE
+    WHEN store_code = 'WEB-1388012W' THEN 'Web'
+    ELSE 'Offline'
+  END AS location
+FROM orders_table
+GROUP BY location;
+
+-- Task 5
+
+SELECT
+    dsd.store_type,
+    ROUND(SUM(dp.product_price * ot.product_quantity)::NUMERIC, 2) AS total_sales,
+    ROUND((SUM(dp.product_price * ot.product_quantity)::NUMERIC / d.total * 100)::NUMERIC, 2) AS percentage_total
+FROM
+    dim_store_details AS dsd,
+    dim_products AS dp,
+    orders_table AS ot,
+    (SELECT ROUND(SUM(dp.product_price * ot.product_quantity)::NUMERIC, 2) AS total
+     FROM dim_products AS dp, orders_table AS ot
+     WHERE dp.product_code = ot.product_code) AS d
+WHERE
+    dsd.store_code = ot.store_code AND dp.product_code = ot.product_code
+GROUP BY
+    dsd.store_type, d.total
+ORDER BY
+    total_sales DESC;
+
+-- Task 6
+
