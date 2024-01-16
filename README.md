@@ -113,6 +113,7 @@ Explore each cleaning method based on the type of data.
     - queries.sql
   - database_schema
     - queries.sql
+  - venv
   - data_cleaning.py
   - data_extraction.py
   - database_utils.py
