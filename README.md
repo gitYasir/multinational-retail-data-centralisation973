@@ -52,7 +52,32 @@ Make sure you have the following software installed on your machine:
 
 - [Python](https://www.python.org/) (version 3.12.0)
 
-### Clone the Repository into a local folder
+### Setting up a Virtual Environment
+
+This project utilizes a virtual environment for managing dependencies. Follow the steps below to set it up:
+
+1. Open a terminal in the project directory.
+2. Run the following command to create a virtual environment:
+
+```bash
+python -m venv venv-name
+```
+
+#### Activate The Virtual Environment:
+
+On Windows:
+
+```bash
+.\venv\Scripts\activate
+```
+
+On macOS and Linux:
+
+```bash
+source venv/bin/activate
+```
+
+### Clone the Repository Into A Local Folder
 
 ```bash
 git clone https://github.com/gitYasir/multinational-retail-data-centralisation973 .
@@ -84,6 +109,10 @@ Explore each cleaning method based on the type of data.
 ## File structure
 
 - MNRDC/
+  - business_enquiries
+    - queries.sql
+  - database_schema
+    - queries.sql
   - data_cleaning.py
   - data_extraction.py
   - database_utils.py

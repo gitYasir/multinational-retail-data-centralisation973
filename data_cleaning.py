@@ -102,6 +102,11 @@ class DataCleaning:
         df["continent"] = df["continent"].str.lstrip("ee")
         df["longitude"] = pd.to_numeric(df["longitude"], errors="coerce")
         df["latitude"] = pd.to_numeric(df["latitude"], errors="coerce")
+        df["staff_numbers"] = df["staff_numbers"].str.rstrip("e")
+        df["staff_numbers"] = df["staff_numbers"].str.rstrip("R")
+        df["staff_numbers"] = df["staff_numbers"].str.lstrip("J")
+        df["staff_numbers"] = df["staff_numbers"].str.lstrip("A")
+        df["staff_numbers"] = df["staff_numbers"].str.replace("n", "")
         df["staff_numbers"] = pd.to_numeric(
             df["staff_numbers"], errors="coerce"
         ).astype("Int64")
