@@ -12,17 +12,22 @@
 
 The project comprises three classes: DataExtractor, DatabaseConnector, and DataCleaning module. Each class serves a distinct purpose:
 
-1. DataExtractor Class
-   Functionality: Extracts data from various sources, such as RDS tables, PDFs, APIs, S3 buckets, and JSON files.
-   Aim: Facilitates flexible and reusable data extraction methods for diverse use cases.
+1. **DataExtractor Class
+   Functionality:** Extracts data from various sources, such as RDS tables, PDFs, APIs, S3 buckets, and JSON files.
+
+   **Aim:** Facilitates flexible and reusable data extraction methods for diverse use cases.
    Learning: Demonstrates the use of APIs, parallel processing, and data extraction from different sources.
-2. DatabaseConnector Class
-   Functionality: Connects to a database, lists tables, and uploads data to a specified table.
-   Aim: Streamlines database operations and provides a modular approach to database connectivity.
+
+2. **DatabaseConnector Class
+   Functionality:** Connects to a database, lists tables, and uploads data to a specified table.
+
+   **Aim:** Streamlines database operations and provides a modular approach to database connectivity.
    Learning: Highlights database connection, SQLAlchemy usage, and data upload to a relational database.
-3. DataCleaning Module
-   Functionality: Contains methods for cleaning and transforming data in various categories, such as user data, card data, store data, product data, order data, and date data.
-   Aim: Ensures data cleanliness and standardization for further analysis or storage.
+
+3. **DataCleaning Module
+   Functionality:** Contains methods for cleaning and transforming data in various categories, such as user data, card data, store data, product data, order data, and date data.
+
+   **Aim:** Ensures data cleanliness and standardization for further analysis or storage.
    Learning: Showcases data cleaning techniques, datetime conversions, and column manipulation.
 
 ### Aim:
